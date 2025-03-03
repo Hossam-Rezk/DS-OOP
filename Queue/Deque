@@ -1,0 +1,95 @@
+class Deque {
+    private int size;
+    private int front;
+    private int rear;
+    private int[] array;
+    private int count;
+
+    public Deque(int size) {
+        this.size = size;
+        this.front = -1;
+        this.rear = 0;
+        this.array = new int[size];
+        this.count = 0;
+    }
+
+    public boolean isFull() {
+        return count == size;
+    }
+
+    public boolean isEmpty() {
+        return count == 0;
+    }
+
+    public void enqueueFront(int value) {
+        if (isFull()) {
+            throw new IllegalStateException("Deque is full");
+        }
+        front = (front - 1 + size) % size;
+        array[front] = value;
+        count++;
+    }
+
+    public void enqueueRear(int value) {
+        if (isFull()) {
+            throw new IllegalStateException("Deque is full");
+        }
+        array[rear] = value;
+        rear = (rear + 1) % size;
+        count++;
+    }
+
+    public int dequeueFront() {
+        if (isEmpty()) {
+            throw new IllegalStateException("Deque is empty");
+        }
+        int value = array[front];
+        front = (front + 1) % size;
+        count--;
+        return value;
+    }
+
+    public int dequeueRear() {
+        if (isEmpty()) {
+            throw new IllegalStateException("Deque is empty");
+        }
+        rear = (rear - 1 + size) % size;
+        int value = array[rear];
+        count--;
+        return value;
+    }
+
+    public void display() {
+        System.out.print("Deque: ");
+        if (isEmpty()) {
+            System.out.println("Empty\n");
+            return;
+        }
+        for (int i = 0, cur = front; i < count; i++, cur = (cur + 1) % size) {
+            System.out.print(array[cur] + " ");
+        }
+        System.out.println("\n");
+    }
+
+    public static void main(String[] args) {
+        Deque dq = new Deque(6);
+        assert dq.isEmpty();
+        dq.display();
+
+        dq.enqueueRear(1);
+        dq.enqueueRear(2);
+        dq.enqueueFront(0);
+        dq.display();
+
+        dq.dequeueFront();
+        dq.display();
+
+        dq.enqueueRear(3);
+        dq.enqueueRear(4);
+        dq.enqueueFront(-1);
+        dq.display();
+
+        dq.dequeueRear();
+        dq.display();
+    }
+}
