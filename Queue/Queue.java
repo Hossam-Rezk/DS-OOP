@@ -12,16 +12,12 @@ class Queue {
         this.array = new int[size];
     }
 
-    private int next(int pos) {
-        return (pos + 1) % size;
-    }
-
     public void enqueue(int value) {
         if (isFull()) {
             throw new IllegalStateException("Queue is full");
         }
         array[rear] = value;
-        rear = next(rear);
+        rear = (rear + 1) % size;
         addedElements++;
     }
 
@@ -30,7 +26,7 @@ class Queue {
             throw new IllegalStateException("Queue is empty");
         }
         int value = array[front];
-        front = next(front);
+        front = (front + 1) % size;
         addedElements--;
         return value;
     }
@@ -54,7 +50,7 @@ class Queue {
             System.out.println();
         }
 
-        for (int cur = front, step = 0; step < addedElements; step++, cur = next(cur)) {
+        for (int cur = front, step = 0; step < addedElements; step++, cur = (cur + 1) % size) {
             System.out.print(array[cur] + " ");
         }
         System.out.println("\n");
@@ -75,7 +71,6 @@ class Queue {
         for (int i = 1; i <= 6; ++i) {
             assert !qu.isEmpty();
             qu.dequeue();
-            // qu.display();
         }
 
         for (int i = 1; i <= 6; ++i) {
@@ -107,4 +102,3 @@ class Queue {
         }
     }
 }
-
